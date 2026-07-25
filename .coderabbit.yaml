@@ -350,6 +350,23 @@ reviews:
           developer setup or maintenance scripts (e.g., Keycloak token
           requests with username=admin, password=admin). These are
           standard defaults for local development environments.
+
+          Do NOT flag a credential-shaped literal in a unit test file
+          when ALL three hold: (1) the file matches a conventional
+          unit-test naming pattern (e.g. *_test.go, *_test.py,
+          test_*.py, *.test.{js,ts}, *.spec.{js,ts}, *_test.rb,
+          *Test.java); (2) the identifier holding the literal (const,
+          var, or local variable — not the struct/field name it's
+          assigned into) is named with a test/fixture/mock/fake
+          prefix or suffix (e.g. testBackendPassword, fixtureAPIKey,
+          mockToken); and (3) the value does not itself match any
+          real-secret shape this check already looks for (no
+          recognizable API-key/token format, no private-key material,
+          no base64/hex blob >32 chars, no URL with embedded
+          credentials, no match to a real vendor's credential
+          pattern). All three conditions must hold — a test-file path
+          alone, or a plausible-looking value alone, is not
+          sufficient.
         mode: "error"
 
       - name: "no-weak-crypto"
